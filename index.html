@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MARGINA, une couche de décision peropératoire qui aide les équipes de neuro-oncologie à arbitrer entre arrêter, cartographier et poursuivre une résection." />
+  <title>MARGINA — Décider au bon moment</title>
+  <style>
+    :root{
+      --ink:#10231f; --muted:#5d6d69; --paper:#f4f6f1; --panel:#fbfcf8;
+      --line:#dce4dc; --teal:#0b6d68; --teal-dark:#084d4a; --mint:#cfe9dd;
+      --lime:#dce86a; --coral:#e98d73; --white:#fff; --shadow:0 18px 50px rgba(16,35,31,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+    .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(244,246,241,.94);backdrop-filter:blur(12px);z-index:10}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:760;letter-spacing:.04em}
+    .mark{width:34px;height:34px;border:2px solid var(--teal);display:grid;place-items:center;position:relative}
+    .mark:before,.mark:after{content:"";position:absolute;background:var(--teal)}
+    .mark:before{width:12px;height:2px;transform:rotate(45deg)}
+    .mark:after{width:2px;height:12px;transform:rotate(45deg)}
+    .nav{display:flex;gap:22px;color:var(--muted);font-size:14px}
+    .nav a:hover{color:var(--teal)}
+    .actions{display:flex;align-items:center;gap:10px}
+    .lang{border:1px solid var(--line);background:transparent;padding:8px 10px;font-size:12px;letter-spacing:.06em;cursor:pointer}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 17px;border:1px solid var(--teal);font-size:14px;font-weight:650;cursor:pointer;transition:.2s}
+    .btn.primary{background:var(--teal);color:white}.btn.primary:hover{background:var(--teal-dark)}
+    .btn.ghost:hover{background:var(--mint)}
+    .hero{padding:76px 0 84px;display:grid;grid-template-columns:1.05fr .95fr;gap:68px;align-items:center}
+    .eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);font-weight:740}
+    h1{font-size:clamp(48px,7vw,84px);line-height:.98;letter-spacing:-.055em;margin:18px 0 24px;max-width:680px}
+    .hero p{font-size:20px;max-width:620px;color:var(--muted);margin:0 0 30px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-note{display:flex;gap:14px;align-items:center;margin-top:22px;color:var(--muted);font-size:13px}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 5px rgba(220,232,106,.28)}
+    .demo{background:var(--teal-dark);padding:22px;box-shadow:var(--shadow);color:white;position:relative;overflow:hidden}
+    .demo:before{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(207,233,221,.3);border-radius:50%;right:-110px;top:-100px}
+    .demo-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#c8e4d9;margin-bottom:24px}
+    .status{border:1px solid rgba(220,232,106,.55);color:var(--lime);padding:6px 9px;font-size:11px}
+    .twin{height:300px;display:grid;place-items:center;position:relative}
+    .ring{width:240px;height:240px;border:1px solid rgba(207,233,221,.5);border-radius:50%;display:grid;place-items:center;position:relative}
+    .ring:before{content:"";position:absolute;inset:24px;border:1px dashed rgba(207,233,221,.4);border-radius:50%}
+    .core{width:95px;height:95px;background:var(--coral);border-radius:44% 56% 53% 47%;transform:rotate(18deg);box-shadow:0 0 0 14px rgba(233,141,115,.12)}
+    .tract{position:absolute;width:180px;height:22px;border-top:3px solid var(--lime);border-radius:50%;transform:rotate(-28deg);top:116px;left:31px}
+    .tract:after{content:"CST risk envelope";position:absolute;right:-22px;top:-26px;font-size:10px;color:var(--lime)}
+    .probe{position:absolute;width:126px;height:2px;background:#c8e4d9;transform:rotate(32deg);right:50px;top:160px}
+    .probe:after{content:"tracked ultrasound";position:absolute;right:0;top:8px;font-size:10px;color:#c8e4d9}
+    .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+    .choice{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.17);padding:11px;cursor:pointer;text-align:left;color:white}
+    .choice.active{border-color:var(--lime);background:rgba(220,232,106,.14)}
+    .choice strong{display:block;font-size:12px}.choice span{display:block;font-size:11px;color:#c8e4d9;margin-top:3px}
+    .section{padding:96px 0;border-top:1px solid var(--line)}
+    .section-head{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;margin-bottom:36px}
+    h2{font-size:clamp(34px,4.8vw,58px);letter-spacing:-.045em;line-height:1.03;margin:10px 0 0;max-width:650px}
+    .lead{max-width:390px;color:var(--muted);font-size:17px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--panel);border:1px solid var(--line);padding:24px;min-height:210px}
+    .card h3{margin:0 0 12px;font-size:19px;letter-spacing:-.02em}.card p{margin:0;color:var(--muted);font-size:15px}
+    .num{font-size:12px;color:var(--teal);font-weight:760;letter-spacing:.12em;margin-bottom:45px}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .step{padding:24px 22px 28px;border-right:1px solid var(--line);min-height:190px}.step:last-child{border-right:0}
+    .step .num{margin-bottom:28px}.step h3{margin:0 0 8px;font-size:18px}.step p{margin:0;color:var(--muted);font-size:14px}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+    .metric{display:flex;justify-content:space-between;align-items:flex-end;padding:18px 0;border-bottom:1px solid var(--line)}.metric strong{font-size:36px;letter-spacing:-.05em}.metric span{color:var(--muted);font-size:14px;max-width:190px;text-align:right}
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.pill{padding:8px 11px;background:var(--mint);font-size:12px;color:var(--teal-dark)}
+    .band{background:var(--teal);color:white;padding:86px 0}.band .eyebrow{color:var(--lime)}.band .lead{color:#c8e4d9}
+    .band .card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}.band .card p{color:#c8e4d9}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:720px}.form input,.form select,.form textarea{width:100%;padding:13px 14px;border:1px solid var(--line);background:var(--panel);font:inherit;color:var(--ink)}.form textarea{grid-column:1/-1;min-height:110px}.form .full{grid-column:1/-1}
+    footer{padding:28px 0 36px;color:var(--muted);font-size:13px}.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .smallcaps{font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+    .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .case-card{background:var(--panel);border:1px solid var(--line);padding:24px;min-height:280px;display:flex;flex-direction:column}
+    .case-card h3{margin:0 0 10px;font-size:20px;letter-spacing:-.025em}
+    .case-card p{margin:0;color:var(--muted);font-size:14px}
+    .case-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);margin-top:auto;padding-top:16px;font-size:12px;color:var(--teal)}
+    .proof-dashboard{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}
+    .proof-panel{background:var(--panel);border:1px solid var(--line);padding:24px}
+    .proof-panel h3{margin:0 0 16px;font-size:18px}
+    .bar-row{display:grid;grid-template-columns:150px 1fr 58px;gap:12px;align-items:center;margin:14px 0;font-size:12px}
+    .bar{height:9px;background:var(--mint);overflow:hidden}.bar i{display:block;height:100%;background:var(--teal)}
+    .status-list{display:grid;gap:10px}.status-item{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.status-item:last-child{border-bottom:0}
+    .badge{padding:5px 8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);white-space:nowrap}.badge.ready{color:var(--teal);border-color:var(--teal)}.badge.review{color:#9a5b1e;border-color:#d7b27d}.badge.pending{color:var(--muted)}
+    .proof-note{margin-top:14px;color:var(--muted);font-size:12px}
+    .brand-strip{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:26px}
+    .brand-panel{background:var(--panel);border:1px solid var(--line);padding:24px}
+    .lockup{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:760;letter-spacing:.04em}
+    .token-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .token{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+    .swatch{width:16px;height:16px;border:1px solid rgba(16,35,31,.15)}
+    .back-top{position:fixed;right:22px;bottom:22px;z-index:20;display:inline-flex;align-items:center;gap:8px;padding:11px 13px;border:1px solid var(--teal);background:rgba(251,252,248,.96);color:var(--teal-dark);font:600 12px inherit;letter-spacing:.02em;box-shadow:0 10px 24px rgba(16,35,31,.12);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .22s ease,transform .22s ease,background .2s ease}
+    .back-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+    .back-top:hover,.back-top:focus-visible{background:var(--mint);outline:none}
+    .back-top svg{width:15px;height:15px}
+    @media(max-width:900px){.nav{display:none}.hero,.split,.brand-strip{grid-template-columns:1fr;gap:40px}.hero{padding-top:52px}.grid-3,.case-grid{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.step:nth-child(2){border-right:0}.step:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+    @media(max-width:560px){.wrap{padding:0 18px}.actions .btn{display:none}h1{font-size:54px}.section{padding:72px 0}.flow{grid-template-columns:1fr}.step{border-right:0!important;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}.form{grid-template-columns:1fr}.form textarea,.form .full{grid-column:auto}.back-top{right:14px;bottom:14px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap" style="width:100%;display:flex;align-items:center;justify-content:space-between">
+      <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span><span>MARGINA</span></a>
+      <nav class="nav"><a href="#solution" data-fr="Solution" data-en="Solution">Solution</a><a href="#technology" data-fr="Technologie" data-en="Technology">Technologie</a><a href="#usecases" data-fr="Cas d’usage" data-en="Use cases">Cas d’usage</a><a href="#about" data-fr="À propos" data-en="About">À propos</a></nav>
+      <div class="actions"><button class="lang" id="langBtn">EN</button><a class="btn primary" href="#contact" data-fr="Demander une démo" data-en="Request a demo">Demander une démo</a></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero wrap">
+      <div>
+        <div class="eyebrow" data-fr="Une innovation NEXYTAL Groupe" data-en="An innovation company within NEXYTAL Groupe">Une innovation NEXYTAL Groupe</div>
+        <h1 data-fr="Décider au bon moment, au plus près de la marge." data-en="Make the right call, at the margin that matters.">Décider au bon moment, au plus près de la marge.</h1>
+        <p data-fr="MARGINA est une couche de décision peropératoire qui transforme les signaux d’imagerie, de cartographie et de physiologie en options lisibles — arrêter, mesurer, poursuivre — avec leur niveau de confiance." data-en="MARGINA is an intraoperative decision layer that turns imaging, mapping and physiology into readable options — stop, measure, extend — with confidence made explicit.">MARGINA est une couche de décision peropératoire qui transforme les signaux d’imagerie, de cartographie et de physiologie en options lisibles — arrêter, mesurer, poursuivre — avec leur niveau de confiance.</p>
+        <div class="cta-row"><a class="btn primary" href="#solution" data-fr="Découvrir la solution" data-en="Discover the solution">Découvrir la solution</a><a class="btn ghost" href="#contact" data-fr="Nous contacter" data-en="Contact us">Nous contacter</a></div>
+        <div class="hero-note"><span class="dot"></span><span data-fr="Supervision clinique. Abstention explicite. Autorité du chirurgien préservée." data-en="Clinical supervision. Explicit abstention. Surgeon authority preserved.">Supervision clinique. Abstention explicite. Autorité du chirurgien préservée.</span></div>
+      </div>
+      <div class="demo" aria-label="Interactive digital twin demo">
+        <div class="demo-head"><span class="smallcaps">MARGINA / TWIN VIEW</span><span class="status" id="status">GUIDANCE AVAILABLE</span></div>
+        <div class="twin"><div class="ring"><div class="core"></div></div><div class="tract"></div><div class="probe"></div></div>
+        <div class="choices"><button class="choice active" data-state="GUIDANCE AVAILABLE"><strong data-fr="Arrêter" data-en="Stop">Arrêter</strong><span data-fr="Résidu estimé 0,8 cm³" data-en="Estimated residual 0.8 cm³">Résidu estimé 0,8 cm³</span></button><button class="choice" data-state="GUIDANCE LIMITED"><strong data-fr="Mesurer" data-en="Measure">Mesurer</strong><span data-fr="Information additionnelle" data-en="Additional evidence">Information additionnelle</span></button><button class="choice" data-state="GUIDANCE UNAVAILABLE"><strong data-fr="Poursuivre" data-en="Extend">Poursuivre</strong><span data-fr="Confiance insuffisante" data-en="Insufficient confidence">Confiance insuffisante</span></button></div>
+      </div>
+    </section>
+
+    <section class="section" id="solution"><div class="wrap">
+      <div class="section-head"><div><div class="eyebrow" data-fr="Le problème" data-en="The problem">Le problème</div><h2 data-fr="La navigation préopératoire ne suffit plus quand le cerveau se déforme." data-en="Preoperative navigation is not enough once the brain shifts.">La navigation préopératoire ne suffit plus quand le cerveau se déforme.</h2></div><p class="lead" data-fr="Au bord d’une voie motrice, chaque millimètre concentre un arbitrage clinique, cognitif et économique." data-en="At the edge of a motor pathway, every millimeter concentrates a clinical, cognitive and economic trade-off.">Au bord d’une voie motrice, chaque millimètre concentre un arbitrage clinique, cognitif et économique.</p></div>
+      <div class="grid-3"><article class="card"><div class="num">01</div><h3 data-fr="Un état qui évolue" data-en="A changing state">Un état qui évolue</h3><p data-fr="Les images, la cavité, les instruments et la physiologie racontent une histoire différente à chaque pause opératoire." data-en="Images, cavity, instruments and physiology tell a different story at every operative pause.">Les images, la cavité, les instruments et la physiologie racontent une histoire différente à chaque pause opératoire.</p></article><article class="card"><div class="num">02</div><h3 data-fr="Des signaux dispersés" data-en="Fragmented signals">Des signaux dispersés</h3><p data-fr="Les équipes disposent d’indices puissants, mais rarement d’une vue commune sur le prochain geste et son risque." data-en="Teams have powerful signals, but rarely a shared view of the next move and its risk.">Les équipes disposent d’indices puissants, mais rarement d’une vue commune sur le prochain geste et son risque.</p></article><article class="card"><div class="num">03</div><h3 data-fr="Le coût du faux confort" data-en="The cost of false confidence">Le coût du faux confort</h3><p data-fr="Une frontière trop nette peut encourager une extension risquée. MARGINA rend l’incertitude visible et actionnable." data-en="A boundary that looks too certain can encourage a risky extension. MARGINA makes uncertainty visible and actionable.">Une frontière trop nette peut encourager une extension risquée. MARGINA rend l’incertitude visible et actionnable.</p></article></div>
+    </div></section>
+
+    <section class="section" id="technology"><div class="wrap"><div class="section-head"><div><div class="eyebrow" data-fr="Comment ça marche" data-en="How it works">Comment ça marche</div><h2 data-fr="Un jumeau numérique qui sait aussi dire “je ne sais pas”." data-en="A digital twin that knows when to say “not enough confidence.”">Un jumeau numérique qui sait aussi dire “je ne sais pas”.</h2></div><p class="lead" data-fr="L’architecture est conçue autour d’une décision clinique précise, avec un repli immédiat vers les pratiques standard." data-en="The architecture is built around one precise clinical decision, with immediate fallback to standard practice.">L’architecture est conçue autour d’une décision clinique précise, avec un repli immédiat vers les pratiques standard.</p></div>
+      <div class="flow"><div class="step"><div class="num">01 / SYNCHRONISER</div><h3 data-fr="Rassembler" data-en="Synchronize">Rassembler</h3><p data-fr="IRM, tractographie, échographie 3D, cartographie, MEP, trajectoires et contexte opératoire." data-en="MRI, tractography, 3D ultrasound, mapping, MEPs, trajectories and operative context.">IRM, tractographie, échographie 3D, cartographie, MEP, trajectoires et contexte opératoire.</p></div><div class="step"><div class="num">02 / ACTUALISER</div><h3 data-fr="Mettre à jour" data-en="Update">Mettre à jour</h3><p data-fr="Le modèle suit la déformation et la relation tumeur–voie motrice au fil du geste." data-en="The model tracks deformation and the tumor–motor pathway relationship as the case evolves.">Le modèle suit la déformation et la relation tumeur–voie motrice au fil du geste.</p></div><div class="step"><div class="num">03 / SIMULER</div><h3 data-fr="Comparer" data-en="Compare">Comparer</h3><p data-fr="Chaque action bornée est projetée avec bénéfice attendu, risque et fraîcheur des données." data-en="Each bounded action is projected with expected benefit, risk and data freshness.">Chaque action bornée est projetée avec bénéfice attendu, risque et fraîcheur des données.</p></div><div class="step"><div class="num">04 / RESTITUER</div><h3 data-fr="Décider" data-en="Decide">Décider</h3><p data-fr="Une interface sobre expose les options. Si la confiance baisse, la recommandation disparaît." data-en="A calm interface exposes the options. When confidence drops, the recommendation disappears.">Une interface sobre expose les options. Si la confiance baisse, la recommandation disparaît.</p></div></div>
+      <div class="pill-row"><span class="pill">AI state estimation</span><span class="pill">Deformable registration</span><span class="pill">Action-conditioned forecasts</span><span class="pill">XR / monitor fallback</span><span class="pill">On-prem deployment</span></div>
+    </div></section>
+
+    <section class="section" id="usecases"><div class="wrap"><div class="section-head"><div><div class="eyebrow" data-fr="Cas d’usage prioritaires" data-en="Priority use cases">Cas d’usage prioritaires</div><h2 data-fr="Commencer par la marge motrice. Construire ensuite la suite." data-en="Start at the motor margin. Expand from there.">Commencer par la marge motrice. Construire ensuite la suite.</h2></div><p class="lead" data-fr="Une première indication étroite crée une base de preuve et d’intégration réutilisable pour d’autres gestes complexes." data-en="A narrow first indication creates reusable evidence and integration foundations for other complex procedures.">Une première indication étroite crée une base de preuve et d’intégration réutilisable pour d’autres gestes complexes.</p></div>
+      <div class="split"><div><div class="metric"><strong>01</strong><span data-fr="Décision “arrêter, mesurer ou poursuivre”" data-en="Stop, measure or extend decision">Décision “arrêter, mesurer ou poursuivre”</span></div><div class="metric"><strong>90 j</strong><span data-fr="Horizon clinique lisible pour la preuve" data-en="A clear clinical proof horizon">Horizon clinique lisible pour la preuve</span></div><div class="metric"><strong>3</strong><span data-fr="États de confiance conçus pour le bloc" data-en="Confidence states designed for the OR">États de confiance conçus pour le bloc</span></div></div><div class="grid-3" style="grid-template-columns:1fr"><article class="card"><div class="num">NEURO-ONCOLOGIE</div><h3 data-fr="Décision au deep motor margin" data-en="Deep motor margin decision">Décision au deep motor margin</h3><p data-fr="La première application réunit déformation, imagerie, neurophysiologie et simulation de conséquences autour d’un même point d’arrêt." data-en="The first application brings deformation, imaging, neurophysiology and consequence simulation around one decision point.">La première application réunit déformation, imagerie, neurophysiologie et simulation de conséquences autour d’un même point d’arrêt.</p></article><article class="card"><div class="num">ROADMAP / MIRA-XR</div><h3 data-fr="Planification de réparation patient-spécifique" data-en="Patient-specific repair planning">Planification de réparation patient-spécifique</h3><p data-fr="À terme, le même socle pourra comparer des stratégies de réparation mitrale sous supervision clinique et gouvernance dédiée." data-en="Over time, the same foundation can compare mitral repair strategies under clinical supervision and dedicated governance.">À terme, le même socle pourra comparer des stratégies de réparation mitrale sous supervision clinique et gouvernance dédiée.</p></article></div></div>
+    </div></section>
+
+    <section class="section" id="cases"><div class="wrap">
+      <div class="section-head"><div><div class="eyebrow" data-fr="Scénarios entreprise" data-en="Enterprise scenarios">Scénarios entreprise</div><h2 data-fr="Des preuves lisibles pour des équipes qui doivent décider ensemble." data-en="Clear proof points for teams that have to decide together.">Des preuves lisibles pour des équipes qui doivent décider ensemble.</h2></div><p class="lead" data-fr="Les chiffres ci-dessous sont des emplacements de preuve à renseigner après pilote, validation externe et accord des partenaires." data-en="The figures below are proof placeholders to be completed after pilots, external validation and partner approval.">Les chiffres ci-dessous sont des emplacements de preuve à renseigner après pilote, validation externe et accord des partenaires.</p></div>
+      <div class="proof-dashboard">
+        <div class="proof-panel"><div class="num">PILOT SCORECARD</div><h3 data-fr="Métriques de pilote à compléter" data-en="Pilot metrics to complete">Métriques de pilote à compléter</h3>
+          <div class="bar-row"><span data-fr="Décisions documentées" data-en="Decisions documented">Décisions documentées</span><div class="bar"><i style="width:72%"></i></div><strong>72%*</strong></div>
+          <div class="bar-row"><span data-fr="Synchronisation réussie" data-en="Successful sync">Synchronisation réussie</span><div class="bar"><i style="width:88%"></i></div><strong>88%*</strong></div>
+          <div class="bar-row"><span data-fr="Abstention appropriée" data-en="Appropriate abstention">Abstention appropriée</span><div class="bar"><i style="width:64%"></i></div><strong>64%*</strong></div>
+          <div class="bar-row"><span data-fr="Adoption équipe" data-en="Team adoption">Adoption équipe</span><div class="bar"><i style="width:55%"></i></div><strong>55%*</strong></div>
+          <p class="proof-note" data-fr="* Valeurs de démonstration uniquement. Remplacer par les résultats verrouillés du pilote avant toute communication externe." data-en="* Demonstration values only. Replace with locked pilot results before external communication.">* Valeurs de démonstration uniquement. Remplacer par les résultats verrouillés du pilote avant toute communication externe.</p>
+        </div>
+        <div class="proof-panel"><div class="num">READINESS</div><h3 data-fr="Statut de validation" data-en="Validation status">Statut de validation</h3><div class="status-list"><div class="status-item"><span data-fr="Architecture du twin" data-en="Twin architecture">Architecture du twin</span><span class="badge ready" data-fr="Prêt" data-en="Ready">Prêt</span></div><div class="status-item"><span data-fr="Étude silencieuse" data-en="Silent-mode study">Étude silencieuse</span><span class="badge review" data-fr="En revue" data-en="In review">En revue</span></div><div class="status-item"><span data-fr="Validation externe" data-en="External validation">Validation externe</span><span class="badge pending" data-fr="À planifier" data-en="To schedule">À planifier</span></div><div class="status-item"><span data-fr="Partenaires device" data-en="Device partners">Partenaires device</span><span class="badge review" data-fr="Cadrage" data-en="Scoping">Cadrage</span></div></div></div>
+      </div>
+    </div></section>
+
+    <section class="section" id="brand"><div class="wrap">
+      <div class="section-head"><div><div class="eyebrow" data-fr="Système de marque" data-en="Brand system">Système de marque</div><h2 data-fr="Une identité construite autour de la marge, du signal et du jugement." data-en="An identity built around margin, signal and judgment.">Une identité construite autour de la marge, du signal et du jugement.</h2></div><p class="lead" data-fr="Le mini-système MARGINA est conçu pour rester lisible dans un bloc opératoire, un comité d’investissement ou une interface XR." data-en="The MARGINA mini-system stays legible in an operating room, an investment committee or an XR interface.">Le mini-système MARGINA est conçu pour rester lisible dans un bloc opératoire, un comité d’investissement ou une interface XR.</p></div>
+      <div class="brand-strip"><div class="brand-panel"><div class="lockup"><span class="mark" aria-hidden="true"></span><span>MARGINA</span></div><p class="lead" style="margin:18px 0 0" data-fr="Lockup principal : symbole de croisement + mot-symbole en capitales espacées. Le symbole évoque une frontière active et un point de décision, sans reprendre les clichés du cerveau ou du casque VR." data-en="Primary lockup: crossing symbol + spaced uppercase wordmark. The symbol suggests an active boundary and a decision point without repeating brain or VR-headset clichés.">Lockup principal : symbole de croisement + mot-symbole en capitales espacées. Le symbole évoque une frontière active et un point de décision, sans reprendre les clichés du cerveau ou du casque VR.</p><a class="btn ghost" style="margin-top:20px" href="brand-guide.html" download data-fr="Télécharger le guide 1 page" data-en="Download 1-page guide">Télécharger le guide 1 page</a></div><div class="brand-panel"><div class="smallcaps">TOKENS</div><div class="token-row"><span class="token"><i class="swatch" style="background:#0b6d68"></i>Teal / #0B6D68</span><span class="token"><i class="swatch" style="background:#084d4a"></i>Deep / #084D4A</span><span class="token"><i class="swatch" style="background:#dce86a"></i>Lime / #DCE86A</span><span class="token"><i class="swatch" style="background:#e98d73"></i>Coral / #E98D73</span></div><p class="lead" style="margin:20px 0 0;font-size:14px" data-fr="Typographie : Inter pour l’interface, les données et la preuve. Titres serrés, corps aéré, capitales réservées aux repères opérationnels." data-en="Typography: Inter for interface, data and proof. Tight headlines, open body copy, uppercase reserved for operational labels.">Typographie : Inter pour l’interface, les données et la preuve. Titres serrés, corps aéré, capitales réservées aux repères opérationnels.</p></div></div>
+    </div></section>
+
+    <section class="band" id="about"><div class="wrap"><div class="section-head"><div><div class="eyebrow">NEXYTAL GROUPE</div><h2 data-fr="Une société d’innovation distincte, adossée à un écosystème plus large." data-en="A distinct innovation company, backed by a broader ecosystem.">Une société d’innovation distincte, adossée à un écosystème plus large.</h2></div><p class="lead" data-fr="MARGINA apporte la spécialisation produit et la rigueur de preuve. NEXYTAL Groupe apporte une vision, des connexions et une capacité d’exécution à long terme." data-en="MARGINA brings product focus and evidence discipline. NEXYTAL Groupe brings vision, connections and long-term execution capacity.">MARGINA apporte la spécialisation produit et la rigueur de preuve. NEXYTAL Groupe apporte une vision, des connexions et une capacité d’exécution à long terme.</p></div><div class="grid-3"><article class="card"><div class="num">CONFIANCE</div><p data-fr="Une relation claire entre innovation, supervision humaine et exigences réglementaires." data-en="A clear relationship between innovation, human oversight and regulatory expectations.">Une relation claire entre innovation, supervision humaine et exigences réglementaires.</p></article><article class="card"><div class="num">PLATEFORME</div><p data-fr="Un actif logiciel réutilisable pour l’imagerie, la simulation, le bloc numérique et la formation." data-en="Reusable software infrastructure for imaging, simulation, the digital OR and training.">Un actif logiciel réutilisable pour l’imagerie, la simulation, le bloc numérique et la formation.</p></article><article class="card"><div class="num">OUVERTURE</div><p data-fr="Interopérabilité, validation externe et déploiement on-premise au cœur de la feuille de route." data-en="Interoperability, external validation and on-premise deployment at the heart of the roadmap.">Interopérabilité, validation externe et déploiement on-premise au cœur de la feuille de route.</p></article></div></div></section>
+
+    <section class="section" id="contact"><div class="wrap"><div class="section-head"><div><div class="eyebrow" data-fr="Parlons du prochain cas" data-en="Let's discuss the next case">Parlons du prochain cas</div><h2 data-fr="Voir MARGINA en contexte." data-en="See MARGINA in context.">Voir MARGINA en contexte.</h2></div><p class="lead" data-fr="Démonstration produit, partenariat technologique ou discussion de déploiement : dites-nous où se situe votre enjeu." data-en="Product demo, technology partnership or deployment discussion: tell us where the opportunity sits.">Démonstration produit, partenariat technologique ou discussion de déploiement : dites-nous où se situe votre enjeu.</p></div><form class="form" onsubmit="event.preventDefault(); alert(document.documentElement.lang==='fr'?'Merci. Nous reviendrons vers vous rapidement.':'Thank you. We will be in touch shortly.');"><input required placeholder="Nom / Last name"><input required placeholder="Prénom / First name"><input required placeholder="Organisation / Organization"><input required type="email" placeholder="Email professionnel / Work email"><select><option>Secteur / Sector</option><option>Neuro-oncologie</option><option>Imagerie</option><option>Robotique / XR</option><option>Autre</option></select><input placeholder="Pays / Country"><textarea class="full" placeholder="Besoin, projet ou partenariat / Need, project or partnership"></textarea><button class="btn primary full" type="submit" data-fr="Demander une démonstration" data-en="Request a demo">Demander une démonstration</button></form></div></section>
+  </main>
+  <footer><div class="wrap foot"><span>© 2026 MARGINA — une innovation de NEXYTAL Groupe</span><span>FR / EN · Mentions légales · Confidentialité</span></div></footer>
+  <button class="back-top" id="backTop" type="button" aria-label="Retour en haut de la page" data-fr-label="Retour en haut de la page" data-en-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg><span data-fr="Haut de page" data-en="Back to top">Haut de page</span></button>
+  <script>
+    const langBtn=document.getElementById('langBtn'); let lang='fr';
+    function applyLang(){document.documentElement.lang=lang; langBtn.textContent=lang==='fr'?'EN':'FR'; document.querySelectorAll('[data-fr]').forEach(el=>el.textContent=el.dataset[lang]);}
+    langBtn.addEventListener('click',()=>{lang=lang==='fr'?'en':'fr';applyLang()});
+    document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.choice').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('status').textContent=btn.dataset.state}));
+    const backTop=document.getElementById('backTop');
+    const toggleBackTop=()=>backTop.classList.toggle('visible',window.scrollY>420);
+    window.addEventListener('scroll',toggleBackTop,{passive:true});
+    backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    applyLang(); toggleBackTop();
+  </script>
+</body>
+</html>
