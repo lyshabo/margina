@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARGINA — Mini guide de marque</title>
+  <style>
+    @page{size:A4 landscape;margin:0}
+    *{box-sizing:border-box}body{margin:0;background:#dfe5df;color:#10231f;font-family:Inter,Arial,sans-serif}
+    .page{width:297mm;height:210mm;margin:0 auto;background:#f4f6f1;padding:18mm 20mm 12mm;display:flex;flex-direction:column;overflow:hidden}
+    .content{flex:1;min-height:0;overflow:hidden}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dce4dc;padding-bottom:8mm}
+    .lockup{display:flex;align-items:center;gap:5mm;font-size:25pt;font-weight:800;letter-spacing:.05em}.mark{width:13mm;height:13mm;border:2px solid #0b6d68;position:relative}
+    .mark:before,.mark:after{content:"";position:absolute;left:50%;top:50%;background:#0b6d68;transform:translate(-50%,-50%) rotate(45deg)}.mark:before{width:6mm;height:.7mm}.mark:after{width:.7mm;height:6mm}
+    .kicker,.label{font-size:8pt;letter-spacing:.15em;text-transform:uppercase;color:#0b6d68;font-weight:750}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18mm;padding:11mm 0 8mm}
+    h1{font-size:34pt;line-height:.98;letter-spacing:-.055em;margin:4mm 0 5mm}p{font-size:10pt;line-height:1.5;color:#5d6d69;margin:0}
+    .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm}.panel{border:1px solid #dce4dc;background:#fbfcf8;padding:5mm;min-height:64mm}
+    .panel h2{font-size:14pt;margin:4mm 0 3mm}.swatches{display:grid;grid-template-columns:1fr 1fr;gap:2mm;margin-top:4mm}.swatch{height:18mm;padding:3mm;font-size:7.5pt;display:flex;justify-content:space-between;align-items:flex-end}
+    .dark{color:white}.type{font-size:22pt;letter-spacing:-.045em;margin:5mm 0 1mm}.rules{margin:4mm 0 0;padding:0;list-style:none}.rules li{font-size:8.5pt;color:#5d6d69;border-top:1px solid #dce4dc;padding:2.4mm 0}
+    .footer{flex-shrink:0;border-top:1px solid #dce4dc;padding-top:3mm;display:flex;justify-content:space-between;font-size:7.5pt;color:#5d6d69}
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="content">
+      <div class="top"><div class="lockup"><span class="mark"></span><span>MARGINA</span></div><div class="kicker">Mini guide de marque · Version 1.0</div></div>
+      <div class="hero"><div><div class="kicker">Positionnement visuel</div><h1>La marge.<br>Le signal.<br>Le jugement.</h1></div><p>MARGINA est une couche de décision pour les marges procédurales à fort enjeu. Son identité doit rester précise, calme et opérationnelle : une frontière active, un choix lisible, aucune surcharge. Le symbole de croisement évoque le point où plusieurs signaux convergent vers une décision.</p></div>
+      <div class="grid">
+        <div class="panel"><div class="label">Logo et lockups</div><h2>Principal</h2><p>Symbole + mot-symbole MARGINA. Utiliser le symbole seul pour le favicon, l’icône d’application et les éléments d’interface compacts.</p><ul class="rules"><li>Espace de protection : largeur du croisement interne</li><li>Ne pas étirer, incliner, biseauter ou enfermer dans un badge générique</li><li>Version claire : teal sur fond Paper</li><li>Version sombre : Mint ou blanc sur fond Deep</li></ul></div>
+        <div class="panel"><div class="label">Palette</div><div class="swatches"><div class="swatch dark" style="background:#0b6d68"><span>Teal</span><b>#0B6D68</b></div><div class="swatch dark" style="background:#084d4a"><span>Deep</span><b>#084D4A</b></div><div class="swatch" style="background:#dce86a"><span>Lime</span><b>#DCE86A</b></div><div class="swatch" style="background:#e98d73"><span>Coral</span><b>#E98D73</b></div><div class="swatch" style="background:#f4f6f1"><span>Paper</span><b>#F4F6F1</b></div><div class="swatch" style="background:#cfe9dd"><span>Mint</span><b>#CFE9DD</b></div></div><p style="margin-top:4mm">Teal porte la confiance. Lime signale une guidance disponible. Coral indique une zone à examiner, jamais une alarme clinique autonome.</p></div>
+        <div class="panel"><div class="label">Typographie et usage</div><div class="type">Inter Aa</div><p>Inter 700–800 pour les titres et repères. Inter 400–500 pour le corps, les données et les notes de preuve.</p><ul class="rules"><li>Titres serrés, corps aéré, hiérarchie nette</li><li>Capitales réservées aux états et repères opérationnels</li><li>Motion subtile et informative</li><li>Incertitude présentée comme une donnée, non comme une décoration</li><li>Les chiffres non validés restent explicitement marqués « démonstration »</li></ul></div>
+      </div>
+    </div>
+    <div class="footer"><span>Site de référence : https://lyshabo.github.io/margina/</span><span>Document de travail · Vérifier marque, domaine et règles NEXYTAL avant publication externe</span></div>
+  </section>
+</body>
+</html>

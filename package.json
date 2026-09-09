@@ -1,0 +1,16 @@
+{
+  "name": "margina-public-preview",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "vercel:login": "vercel login",
+    "vercel:link": "vercel link",
+    "deploy:preview": "vercel deploy",
+    "deploy:production": "vercel deploy --prod",
+    "deploy:temporary": "vercel deploy --temporary",
+    "deploy:dry": "vercel deploy --dry --json"
+  },
+  "devDependencies": {
+    "vercel": "59.13.1"
+  }
+}
