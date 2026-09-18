@@ -81,15 +81,15 @@
     .case-card h3{margin:0 0 10px;font-size:20px;letter-spacing:-.025em}
     .case-card p{margin:0;color:var(--muted);font-size:14px}
     .case-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);margin-top:auto;padding-top:16px;font-size:12px;color:var(--teal)}
-    .proof-dashboard{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}
-    .proof-panel{background:var(--panel);border:1px solid var(--line);padding:24px}
+    .proof-dashboard{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:14px}
+    .proof-panel{min-width:0;background:var(--panel);border:1px solid var(--line);padding:24px}
     .proof-panel h3{margin:0 0 16px;font-size:18px}
     .evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
     .evidence-item{border:1px solid var(--line);background:#fff;padding:15px;min-height:128px}
     .evidence-item strong{display:block;color:var(--teal-dark);font-size:30px;line-height:1;margin-bottom:9px}
     .evidence-item span{display:block;color:var(--ink);font-size:12px;line-height:1.45}
     .evidence-item small{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:8px}
-    .status-list{display:grid;gap:10px}.status-item{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.status-item:last-child{border-bottom:0}
+    .status-list{display:grid;gap:10px}.status-item{min-width:0;display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.status-item>span:first-child{min-width:0;overflow-wrap:anywhere}.status-item:last-child{border-bottom:0}
     .badge{padding:5px 8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);white-space:nowrap}.badge.ready{color:var(--teal);border-color:var(--teal)}.badge.review{color:#9a5b1e;border-color:#d7b27d}.badge.pending{color:var(--muted)}
     .proof-note{margin-top:14px;color:var(--muted);font-size:12px}
     .roadmap-grid{display:grid;gap:14px}
@@ -185,7 +185,7 @@
           <div class="roadmap-stage"><div class="stage-label" data-fr="GOUVERNANCE" data-en="GOVERNANCE">GOUVERNANCE</div><div><h4 data-fr="Supervision et qualification dédiées" data-en="Dedicated oversight and qualification">Supervision et qualification dédiées</h4><p data-fr="Ne présenter aucune capacité, qualification MDR/AI Act, performance ou partenariat comme acquis avant preuve et autorisation formelles." data-en="Do not present any capability, MDR/AI Act qualification, performance or partnership as established before formal evidence and approval.">Ne présenter aucune capacité, qualification MDR/AI Act, performance ou partenariat comme acquis avant preuve et autorisation formelles.</p></div></div></div>
         </article>
       </div>
-      <p class="proof-note" data-fr="Support stratégique et de recherche uniquement. Pas pour les soins ou l’usage clinique en direct." data-en="Strategy and research material only. Not for patient care or live clinical use.">Support stratégique et de recherche uniquement. Pas pour les soins ou l’usage clinique en direct.</p>
+      <p class="proof-note" data-fr="Support stratégique et de recherche uniquement. Pas pour les soins ni pour l’usage clinique en direct." data-en="Strategy and research material only. Not for patient care or live clinical use.">Support stratégique et de recherche uniquement. Pas pour les soins ni pour l’usage clinique en direct.</p>
     </div></section>
 
     <section class="section" id="cases"><div class="wrap">
